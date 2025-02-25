@@ -10,7 +10,7 @@ const testimonials = [
         name: "Jane Smith",
         position: "Product Manager",
         company: "InnovateX",
-        image: "https://t3.ftcdn.net/jpg/06/36/69/86/360_F_636698674_DroChEj5eWmZiaZOSDMnj8hcDqqw74Fp.jpg",
+        image: "https://dpemoji.com/wp-content/uploads/2023/01/Whatsapp-dp-for-boys-57.png",
         text: "I love how JobLane connects job seekers with top companies. It made my job search stress-free and successful!"
     },
     {
@@ -24,7 +24,7 @@ const testimonials = [
         name: "Emily Brown",
         position: "UX Designer",
         company: "CreativeMind",
-        image: "https://t3.ftcdn.net/jpg/06/36/69/86/360_F_636698674_DroChEj5eWmZiaZOSDMnj8hcDqqw74Fp.jpg",
+        image: "https://dpemoji.com/wp-content/uploads/2023/01/Whatsapp-dp-for-boys-57.png",
         text: "JobLane's intuitive interface and personalized job recommendations made my job search efficient and enjoyable."
     },
     {

@@ -4,7 +4,7 @@ import { MetaData } from '../components/MetaData'
 import { Loader } from '../components/Loader'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSingleJob, saveJob } from '../actions/JobActions'
-import { BiBriefcase, BiBuildings, BiRupee } from 'react-icons/bi'
+import { BiBriefcase, BiBuildings, BiDollar, BiRupee } from 'react-icons/bi'
 import { AiOutlineSave } from 'react-icons/ai'
 import { HiStatusOnline } from 'react-icons/hi'
 import { BsPersonWorkspace, BsSend } from 'react-icons/bs'
@@ -98,7 +98,7 @@ export const JobDetails = () => {
                     <li className='flex items-center gap-3'>Posted By: <div>{jobDetails.postedBy.name}</div></li>
                     <li className='flex items-center gap-3'>Posted At: <div>{convertDateFormat(jobDetails.createdAt.substr(0, 10))}</div></li>
                     <li className='flex items-center gap-3'>Location: <div> {jobDetails.location}</div></li>
-                    <li className='flex items-center gap-3'>Salary: <div className='flex items-center' ><BiRupee />  <span>{(jobDetails.salary  / 100000).toFixed(0)} LPA</span></div></li>
+                    <li className='flex items-center gap-3'>Salary: <div className='flex items-center' ><BiDollar />  <span>{jobDetails.salary}</span></div></li>
                     <li className='flex items-center gap-3'>Experience: <div> {jobDetails.experience}</div></li>
                     <li className='flex items-center gap-3'>Skills Required: <div className='flex flex-wrap items-center gap-3'> {jobDetails.skillsRequired.map((e,i) => (<span key={i} className='px-2 py-0.5 bg-yellow-600 rounded text-black md:text-sm font-semibold text-xs'>{e}</span>))}                     </div></li>
                     <li className='grid gird-cols-1 gap-2 pt-2'><div className='text-2xl'>Job Description: </div> <div> {jobDetails.description}</div></li>
