@@ -80,7 +80,7 @@ export const Footer = () => {
               className="underline text-blue-400"
               to="/"
             >
-              Group ?? Final Year Project
+              Group 05 Final Year Project
             </Link>
           </p>
           <p className="text-sm"> &copy;Copyright, All rights reserved.</p>
