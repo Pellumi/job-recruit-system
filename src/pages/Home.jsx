@@ -163,24 +163,24 @@ export const Home = () => {
                           </div>
                         </Link>
                         <Link
-                          to={`/details/${allJobs[5]._id}`}
+                          to={`/details/${allJobs[0]._id}`}
                           className="flex gap-2 shadow-sm shadow-gray-800 border border-gray-700 md:w-[26rem] w-[21rem] p-2 flex-col hover:border-rose-500 transition duration-300 hover:scale-[1.02] hover:bg-slate-950"
                         >
                           <div className="flex gap-3 ">
                             <div className="w-[5rem]  flex justify-center items-center">
                               <img
-                                src={allJobs[5].companyLogo.url}
-                                alt={allJobs[5].title}
+                                src={allJobs[0].companyLogo.url}
+                                alt={allJobs[0].title}
                                 className="w-[4rem]"
                               />
                             </div>
                             <div>
-                              <p className="text-xl">{allJobs[5].title}</p>
+                              <p className="text-xl">{allJobs[0].title}</p>
                               <p className="text-lg">
-                                {allJobs[5].companyName}
+                                {allJobs[0].companyName}
                               </p>
                               <p className="text-sm">
-                                {allJobs[5].description.slice(0, 30) + "..."}
+                                {allJobs[0].description.slice(0, 30) + "..."}
                               </p>
                             </div>
                           </div>
@@ -190,8 +190,8 @@ export const Home = () => {
                                 allJobs[3].createdAt.slice(0, 10)
                               )}
                             </span>
-                            <span>{allJobs[5].employmentType}</span>
-                            <span>{allJobs[5].location}</span>
+                            <span>{allJobs[0].employmentType}</span>
+                            <span>{allJobs[0].location}</span>
                           </div>
                         </Link>
                         <Link
