@@ -100,7 +100,7 @@ export const ViewAllAppli = () => {
                     {app.job.title}
                   </td>
                   <td className="px-6 py-4">
-                    {app.applicant.name}
+                    {app.applicant?.name}
                   </td>
                   <td className={`px-6 py-4 ${
                     app.status === "pending" ? "text-blue-500" : app.status === "rejected" ? "text-red-500" : "text-green-500"                

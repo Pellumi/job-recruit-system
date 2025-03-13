@@ -220,7 +220,7 @@ export const Jobs = () => {
                       }
 
                     </ul>
-                    <div className='pt-5'>
+                    {/* <div className='pt-5'>
                       <p className='text-xl pb-3 underline underline-offset-4'>Salary</p>
 
                       <Slider
@@ -231,10 +231,10 @@ export const Jobs = () => {
                         min={0}
                         max={2000000}
                       />
-                    </div>
+                    </div> */}
 
 
-                    <div className='flex flex-col gap-4 w-2/3 pt-5'>
+                    <div className='flex flex-col gap-4 w-full pt-5'>
                       <button onClick={() => leftFilter(jobs)} className='blueCol px-1 py-1 text-xs'>Apply Filter</button>
                       <button onClick={() => removeLeftFilter()} className='blueCol px-1 py-1 text-xs'>Remove Filter</button>
                     </div>
@@ -321,7 +321,7 @@ export const Jobs = () => {
                               }
 
                             </ul>
-                            <div className='pt-5'>
+                            {/* <div className='pt-5'>
                               <p className='text-xl pb-3 underline underline-offset-4'>Salary</p>
 
                               <Slider
@@ -332,7 +332,7 @@ export const Jobs = () => {
                                 min={0}
                                 max={2000000}
                               />
-                            </div>
+                            </div> */}
 
 
                             <div className='flex text-sm flex-col gap-4 w-2/3 pt-5'>
@@ -343,7 +343,7 @@ export const Jobs = () => {
                           </div>
 
                         </div>
-                        <div className='filter2  sm:hidden flex flex-col ml-16'>
+                        {/* <div className='filter2  sm:hidden flex flex-col ml-16'>
                           <div className='flex justify-end  flex-col filter  '>
                             <p className='text-lg underline underline-offset-4'>Companies</p>
 
@@ -360,7 +360,7 @@ export const Jobs = () => {
                             </div>
                           </div>
 
-                        </div>
+                        </div> */}
                       </div>
 
 
@@ -375,7 +375,7 @@ export const Jobs = () => {
 
 
             {!isMobile &&  <div className='filter2 flex flex-col ml-16'>
-                  <div className='flex justify-end  flex-col filter  '>
+                  {/* <div className='flex justify-end  flex-col filter  '>
                     <p className='text-xl underline underline-offset-4'>Companies</p>
 
                     <div className='pt-3 flex flex-col justify-end text-right gap-3'>
@@ -389,7 +389,7 @@ export const Jobs = () => {
                       <button onClick={() => rightFilter(jobs)} className='blueCol px-1 py-1 text-xs'>Apply Search</button>
                       <button onClick={() => removeRightFilter()} className='blueCol px-1 py-1 text-xs'>Remove Search</button>
                     </div>
-                  </div>
+                  </div> */}
 
                 </div>}
 
