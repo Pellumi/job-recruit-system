@@ -25,13 +25,23 @@ exports.createJob = async (req, res) => {
       crop: "scale",
     });
 
+    const company = await User.findById(req.user._id);
+    if (!company) {
+      return res.status(404).json({
+        success: false,
+        message: "Company not found.",
+      });
+    }
+
+    const companyLogo = company.avatar;
+
     const newJob = await Job.create({
       title,
       description,
       companyName,
       companyLogo: {
-        public_id: myCloud.public_id,
-        url: myCloud.secure_url,
+        public_id: logo ? myCloud.public_id : companyLogo.public_id,
+        url: logo ? myCloud.secure_url : companyLogo.url,
       },
       location,
       skillsRequired,
