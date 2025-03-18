@@ -54,6 +54,36 @@ exports.getAllApp = async (req, res) => {
   }
 };
 
+exports.getAllCompanyApp = async (req, res) => {
+  try {
+    // Find all jobs posted by the authenticated company
+    const jobsPostedByCompany = await Job.find({ postedBy: req.user._id }).select("_id");
+
+    if (!jobsPostedByCompany.length) {
+      return res.status(404).json({
+        success: false,
+        message: "No jobs found for this company.",
+      });
+    }
+
+    const jobIds = jobsPostedByCompany.map(job => job._id);
+
+    // Find applications linked to these jobs
+    const applications = await Application.find({ job: { $in: jobIds } }).populate("job applicant");
+
+    res.status(200).json({
+      success: true,
+      applications,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+
 // Update Application Status
 exports.updateApplication = async (req, res) => {
   try {
