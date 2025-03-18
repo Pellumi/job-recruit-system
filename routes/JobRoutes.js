@@ -35,6 +35,6 @@ router
 
 router.route("/getSavedJobs").get(isAuthenticated, getSavedJobs);
 
-router.route("/company/:companyId").get(isAuthenticated, getAllJobsByCompany);
+router.route("/company/jobs").get(isAuthenticated, getAllJobsByCompany);
 
 module.exports = router;

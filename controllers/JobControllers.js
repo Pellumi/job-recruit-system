@@ -147,7 +147,7 @@ exports.getSavedJobs = async (req, res) => {
 
 exports.getAllJobsByCompany = async (req, res) => {
   try {
-    const { companyId } = req.params;
+    const companyId = req.user.id;
 
     // Find jobs where `postedBy` matches the company's user ID
     const jobs = await Job.find({ postedBy: companyId });
