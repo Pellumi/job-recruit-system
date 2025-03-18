@@ -15,9 +15,11 @@ import { BiBuilding } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { createJobPost } from "../actions/JobActions";
 import { RxCross1 } from "react-icons/rx";
+import { FiLink } from "react-icons/fi";
 
 export const CreateJob = () => {
   const { loading } = useSelector((state) => state.job);
+  const { me } = useSelector((state) => state.user);
 
   const [sideTog, setSideTog] = useState(false);
 
@@ -25,11 +27,17 @@ export const CreateJob = () => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [location, setLocation] = useState("");
+  const [companyName, setCompanyName] = useState(
+    me.role === "company" ? me.name : ""
+  );
+  const [location, setLocation] = useState(
+    me.role === "company" ? me.companyDetails.location : ""
+  );
   const [skillsRequired, setSkillsRequired] = useState("");
   const [experience, setExperience] = useState("");
   const [salary, setSalary] = useState("");
+  const [interviewFormUrl, setInterviewFormUrl] = useState("");
+  const [interviewFormDescription, setInterviewFormDescription] = useState("");
   const [category, setCategory] = useState("");
   const [employmentType, setEmploymentType] = useState("");
 
@@ -60,6 +68,8 @@ export const CreateJob = () => {
       location,
       logo,
       skillsRequired: skillsArr,
+      interviewFormUrl,
+      interviewFormDescription,
       experience,
       salary,
       category,
@@ -70,11 +80,13 @@ export const CreateJob = () => {
 
     setTitle("");
     setDescription("");
-    setCompanyName("");
-    setLocation("");
+    setCompanyName(me.role === "company" ? me.name : "");
+    setLocation(me.role === "company" ? me.companyDetails.location : "");
     setSalary("");
     setExperience("");
     setSkillsRequired("");
+    setInterviewFormUrl("");
+    setInterviewFormDescription("");
     setCategory("");
     setEmploymentType("");
     setLogo("");
@@ -133,6 +145,7 @@ export const CreateJob = () => {
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
                     required
+                    disabled={me.role === "company"}
                     placeholder="Company Name"
                     type="text"
                     className="outline-none w-full text-gray-800 px-2 py-3 rounded-r-md"
@@ -140,42 +153,44 @@ export const CreateJob = () => {
                 </div>
 
                 {/* Company Logo */}
-                <div className="bg-white rounded-md shadow-sm border border-gray-200 hover:border-blue-500 transition-all">
-                  <div className="flex items-center">
-                    <div className="text-gray-500 px-3">
-                      {logo.length !== 0 ? (
-                        <img
-                          src={logo || "/placeholder.svg"}
-                          className="w-8 h-8 object-contain"
-                          alt="Company logo"
-                        />
-                      ) : (
-                        <BiImageAlt size={20} />
-                      )}
+                {me.role != "company" && (
+                  <div className="bg-white rounded-md shadow-sm border border-gray-200 hover:border-blue-500 transition-all">
+                    <div className="flex items-center">
+                      <div className="text-gray-500 px-3">
+                        {logo.length !== 0 ? (
+                          <img
+                            src={logo || "/placeholder.svg"}
+                            className="w-8 h-8 object-contain"
+                            alt="Company logo"
+                          />
+                        ) : (
+                          <BiImageAlt size={20} />
+                        )}
+                      </div>
+                      <label
+                        htmlFor="logo"
+                        className="outline-none w-full cursor-pointer text-gray-800 px-2 py-3 truncate"
+                      >
+                        {logoName.length === 0 ? (
+                          <span className="text-gray-500">
+                            Select Company Logo...
+                          </span>
+                        ) : (
+                          logoName
+                        )}
+                      </label>
+                      <input
+                        id="logo"
+                        name="logo"
+                        required
+                        onChange={logoChange}
+                        accept="image/*"
+                        type="file"
+                        className="hidden"
+                      />
                     </div>
-                    <label
-                      htmlFor="logo"
-                      className="outline-none w-full cursor-pointer text-gray-800 px-2 py-3 truncate"
-                    >
-                      {logoName.length === 0 ? (
-                        <span className="text-gray-500">
-                          Select Company Logo...
-                        </span>
-                      ) : (
-                        logoName
-                      )}
-                    </label>
-                    <input
-                      id="logo"
-                      name="logo"
-                      required
-                      onChange={logoChange}
-                      accept="image/*"
-                      type="file"
-                      className="hidden"
-                    />
                   </div>
-                </div>
+                )}
               </div>
 
               {/* Second row */}
@@ -204,6 +219,7 @@ export const CreateJob = () => {
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     required
+                    disabled={me.role === "company"}
                     placeholder="Location"
                     type="text"
                     className="outline-none w-full text-gray-800 px-2 py-3 rounded-r-md"
@@ -226,17 +242,49 @@ export const CreateJob = () => {
                 </div>
               </div>
 
-              {/* Job Description */}
-              <div className="bg-white rounded-md shadow-sm flex border border-gray-200 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
-                <div className="text-gray-500 px-3 pt-3">
-                  <MdOutlineFeaturedPlayList size={20} />
+              <div className="grid md:grid-cols-3 gap-4">
+                {/* Job Description */}
+                <div className="bg-white rounded-md shadow-sm flex border md:col-span-2 border-gray-200 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
+                  <div className="text-gray-500 px-3 pt-3">
+                    <MdOutlineFeaturedPlayList size={20} />
+                  </div>
+                  <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Job Description"
+                    className="outline-none w-full text-gray-800 px-2 py-3 min-h-[120px] rounded-r-md resize-y"
+                  />
                 </div>
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Job Description"
-                  className="outline-none w-full text-gray-800 px-2 py-3 min-h-[120px] rounded-r-md resize-y"
-                />
+                <div className="flex flex-col gap-6">
+                  <div className="bg-white rounded-md shadow-sm flex items-center border border-gray-200 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
+                    <div className="text-gray-500 px-3">
+                      <FiLink size={20} />
+                    </div>
+                    <input
+                      value={interviewFormUrl}
+                      onChange={(e) => setInterviewFormUrl(e.target.value)}
+                      required
+                      placeholder="Interview Form Url"
+                      type="text"
+                      className="outline-none w-full text-gray-800 px-2 py-3 rounded-r-md"
+                    />
+                  </div>
+                  <div className="bg-white rounded-md shadow-sm flex items-center border border-gray-200 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
+                    <div className="text-gray-500 px-3">
+                      <MdOutlineFeaturedPlayList size={20} />
+                    </div>
+                    <input
+                      value={interviewFormDescription}
+                      onChange={(e) =>
+                        setInterviewFormDescription(e.target.value)
+                      }
+                      required
+                      placeholder="Interview From Description"
+                      type="text"
+                      className="outline-none w-full text-gray-800 px-2 py-3 rounded-r-md"
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* Skills Required */}
@@ -354,43 +402,73 @@ export const CreateJob = () => {
                   required
                   placeholder="Company Name"
                   type="text"
+                  disabled={me.role === "company"}
                   className="outline-none bold-placeholder w-full text-black px-1 pr-3 py-2"
                 />
               </div>
 
               {/* Company Logo */}
-              <div>
-                <div className="bg-white flex justify-center items-center">
-                  <div className="text-gray-600 px-2">
-                    {logo.length !== 0 ? (
-                      <img src={logo} className="w-[3em]" alt="" />
-                    ) : (
-                      <BiImageAlt size={20} />
-                    )}
+              {me.role != "company" && (
+                <div>
+                  <div className="bg-white flex justify-center items-center">
+                    <div className="text-gray-600 px-2">
+                      {logo.length !== 0 ? (
+                        <img src={logo} className="w-[3em]" alt="" />
+                      ) : (
+                        <BiImageAlt size={20} />
+                      )}
+                    </div>
+                    <label
+                      htmlFor="logo"
+                      className="outline-none w-full cursor-pointer text-black px-1 pr-3 py-2 "
+                    >
+                      {logoName.length === 0 ? (
+                        <span className="text-gray-500 font-medium">
+                          Select Company Logo...
+                        </span>
+                      ) : (
+                        logoName
+                      )}
+                    </label>
+                    <input
+                      id="logo"
+                      name="logo"
+                      required
+                      onChange={logoChange}
+                      placeholder="Logo"
+                      accept="image/*"
+                      type="file"
+                      className="outline-none  w-full hidden text-black px-1 pr-3 py-2"
+                    />
                   </div>
-                  <label
-                    htmlFor="logo"
-                    className="outline-none w-full cursor-pointer text-black px-1 pr-3 py-2 "
-                  >
-                    {logoName.length === 0 ? (
-                      <span className="text-gray-500 font-medium">
-                        Select Company Logo...
-                      </span>
-                    ) : (
-                      logoName
-                    )}
-                  </label>
-                  <input
-                    id="logo"
-                    name="logo"
-                    required
-                    onChange={logoChange}
-                    placeholder="Logo"
-                    accept="image/*"
-                    type="file"
-                    className="outline-none  w-full hidden text-black px-1 pr-3 py-2"
-                  />
                 </div>
+              )}
+
+              <div className="bg-white rounded-md shadow-sm flex items-center border border-gray-200 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
+                <div className="text-gray-500 px-3">
+                  <FiLink size={20} />
+                </div>
+                <input
+                  value={interviewFormUrl}
+                  onChange={(e) => setInterviewFormUrl(e.target.value)}
+                  required
+                  placeholder="Interview Form Url"
+                  type="text"
+                  className="outline-none w-full text-gray-800 px-2 py-3 rounded-r-md"
+                />
+              </div>
+              <div className="bg-white rounded-md shadow-sm flex items-center border border-gray-200 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
+                <div className="text-gray-500 px-3">
+                  <MdOutlineFeaturedPlayList size={20} />
+                </div>
+                <input
+                  value={interviewFormDescription}
+                  onChange={(e) => setInterviewFormDescription(e.target.value)}
+                  required
+                  placeholder="Interview From Description"
+                  type="text"
+                  className="outline-none w-full text-gray-800 px-2 py-3 rounded-r-md"
+                />
               </div>
 
               {/* Location */}
@@ -404,6 +482,7 @@ export const CreateJob = () => {
                   required
                   placeholder="Location"
                   type="text"
+                  disabled={me.role === "company"}
                   className="outline-none bold-placeholder w-full text-black px-1 pr-3 py-2"
                 />
               </div>

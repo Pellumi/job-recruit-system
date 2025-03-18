@@ -40,6 +40,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export const getAllJobsAdmin = () => async (dispatch) => {
+  const role = localStorage.getItem("role");
+
   try {
     dispatch(getAllJobsRequest());
 
@@ -49,12 +51,21 @@ export const getAllJobsAdmin = () => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.get(
-      "https://job-recruit-system.onrender.com/api/v1/admin/allJobs",
-      config
-    );
+    if (role === "admin") {
+      const { data } = await axios.get(
+        "https://job-recruit-system.onrender.com/api/v1/admin/allJobs",
+        config
+      );
 
-    dispatch(getAllJobsSuccess(data.jobs));
+      dispatch(getAllJobsSuccess(data.jobs));
+    } else if (role === "company") {
+      const { data } = await axios.get(
+        `https://job-recruit-system.onrender.com/api/v1/company/jobs`,
+        config
+      );
+
+      dispatch(getAllJobsSuccess(data.jobs));
+    }
   } catch (err) {
     dispatch(getAllJobsFail(err.response.data.message));
   }
@@ -82,6 +93,7 @@ export const getAllUsersAdmin = () => async (dispatch) => {
 };
 
 export const getAllAppAdmin = () => async (dispatch) => {
+  const role = localStorage.getItem("role");
   try {
     dispatch(getAllAppRequest());
 
@@ -91,12 +103,21 @@ export const getAllAppAdmin = () => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.get(
-      "https://job-recruit-system.onrender.com/api/v1/admin/allApp",
-      config
-    );
+    if (role === "admin") {
+      const { data } = await axios.get(
+        "https://job-recruit-system.onrender.com/api/v1/admin/allApp",
+        config
+      );
 
-    dispatch(getAllAppSuccess(data.applications));
+      dispatch(getAllAppSuccess(data.applications));
+    } else if (role === "company") {
+      const { data } = await axios.get(
+        "https://job-recruit-system.onrender.com/api/v1/admin/allCompanyApp",
+        config
+      );
+
+      dispatch(getAllAppSuccess(data.applications));
+    }
   } catch (err) {
     dispatch(getAllAppFail(err.response.data.message));
   }
