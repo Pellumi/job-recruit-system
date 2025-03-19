@@ -5,78 +5,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { JobCard } from "../components/JobCard";
 import { getAllJobs } from "../actions/JobActions";
 import Testimonials from "../components/Testimonials/Testimonials.jsx";
+import { getAllCompanies } from "../actions/AdminActions.js";
 
 export const Home = () => {
   const [num, setNum] = useState(2);
   const dispatch = useDispatch();
   const { loading, allJobs } = useSelector((state) => state.job);
+  const { allCompanies } = useSelector((state) => state.admin);
   const [jobs, setJobs] = useState([]);
-
-  const data = [
-    {
-      link: "/images/JobData/1.png",
-    },
-    {
-      link: "/images/JobData/2.png",
-    },
-    {
-      link: "/images/JobData/3.png",
-    },
-    {
-      link: "/images/JobData/4.png",
-    },
-    {
-      link: "/images/JobData/5.jpg",
-    },
-    {
-      link: "/images/JobData/6.png",
-    },
-    {
-      link: "/images/JobData/7.png",
-    },
-    {
-      link: "/images/JobData/8.jpg",
-    },
-    {
-      link: "/images/JobData/9.jpg",
-    },
-    {
-      link: "/images/JobData/10.png",
-    },
-    {
-      link: "/images/JobData/11.jpg",
-    },
-    {
-      link: "/images/JobData/12.png",
-    },
-    {
-      link: "/images/JobData/13.jpg",
-    },
-    {
-      link: "/images/JobData/14.jpg",
-    },
-    {
-      link: "/images/JobData/15.jpg",
-    },
-    {
-      link: "/images/JobData/16.png",
-    },
-    {
-      link: "/images/JobData/17.png",
-    },
-    {
-      link: "/images/JobData/18.png",
-    },
-    {
-      link: "/images/JobData/19.png",
-    },
-    {
-      link: "/images/JobData/20.png",
-    },
-  ];
 
   useEffect(() => {
     dispatch(getAllJobs());
+    dispatch(getAllCompanies());
   }, []);
 
   const convertDateFormat = (inputDate) => {
@@ -234,13 +174,13 @@ export const Home = () => {
             </div>
           </div>
 
-          <div className="pt-20 flex flex-col gap-4 md:px-[1rem] px-[1rem] ">
+          <div className="pt-20 flex flex-col mr-auto gap-4 md:px-[1rem] px-[1rem] ">
             <div className="text-2xl titleT ">Companies on our site</div>
             <div className="flex flex-wrap gap-3 ">
-              {data.map((e, i) => (
-                <div key={i}>
-                  <img src={e.link} className="w-[4rem] " alt="" />
-                </div>
+              {allCompanies?.map((company) => (
+                <Link to={`/company/${company._id}`} key={company._id}>
+                  <img src={company.companyDetails.logo.url} className="w-[4rem] " alt="" />
+                </Link>
               ))}
             </div>
           </div>
