@@ -48,6 +48,29 @@ export const registerUser = (userData) => async (dispatch) => {
   }
 };
 
+export const registerCompany = (companyData) => async (dispatch) => {
+  try {
+    dispatch(registerRequest());
+
+    const { data } = await axios.post(
+      "https://job-recruit-system.onrender.com/api/v1/register-company",
+      companyData
+    );
+
+    dispatch(registerSuccess());
+    localStorage.setItem("userToken", data.token);
+    dispatch(logOrNot());
+    toast.success("Registration successful !");
+  } catch (err) {
+    dispatch(registerFail(err.response.data.message));
+    if (err.response.data.message.includes("duplicate")) {
+      toast.error("User already exists.");
+    } else {
+      toast.error(err.response.data.message);
+    }
+  }
+};
+
 export const loginUser = (userData) => async (dispatch) => {
   try {
     dispatch(loginRequest());

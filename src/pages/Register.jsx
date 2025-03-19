@@ -12,7 +12,7 @@ import { CgProfile, CgWebsite } from "react-icons/cg";
 import { GrLocation } from "react-icons/gr";
 import { Link, useNavigate } from "react-router-dom";
 import { TbFileDescription, TbLoader2 } from "react-icons/tb";
-import { registerUser } from "../actions/UserActions";
+import { registerCompany, registerUser } from "../actions/UserActions";
 import { useDispatch, useSelector } from "react-redux";
 
 export const Register = () => {
@@ -110,6 +110,31 @@ export const Register = () => {
     setResume("");
     setResumeName("");
     setSkills("");
+  };
+
+  const registerCompanyHandler = (e) => {
+    e.preventDefault();
+
+    const data = {
+      companyName: companyName,
+      email: companyEmail,
+      password: companyPassword,
+      description: companyDescription,
+      location: companyLocation,
+      website: companyWebsite,
+      logo: companyLogo,
+    };
+
+    dispatch(registerCompany(data));
+
+    setCompanyName("");
+    setCompanyEmail("");
+    setCompanyPassword("");
+    setCompanyDescription("");
+    setCompanyLocation("");
+    setCompanyWebsite("");
+    setCompanyLogo("");
+    setCompanyLogoName("");
   };
 
   useEffect(() => {
@@ -329,7 +354,7 @@ export const Register = () => {
           ) : (
             <div className="flex flex-col justify-center w-full items-center">
               <form
-                onSubmit={registerHandler}
+                onSubmit={registerCompanyHandler}
                 className="flex flex-col md:w-1/2 shadow-gray-700 w-full md:mx-0 mx-8"
                 action=""
               >

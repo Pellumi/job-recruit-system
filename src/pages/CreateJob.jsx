@@ -271,7 +271,7 @@ export const CreateJob = () => {
                   </div>
                   <div className="bg-white rounded-md shadow-sm flex items-center border border-gray-200 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
                     <div className="text-gray-500 px-3">
-                      <MdOutlineFeaturedPlayList size={20} />
+                      <FiLink size={20} />
                     </div>
                     <input
                       value={interviewFormDescription}
@@ -279,7 +279,7 @@ export const CreateJob = () => {
                         setInterviewFormDescription(e.target.value)
                       }
                       required
-                      placeholder="Interview From Description"
+                      placeholder="Interview Meet Url"
                       type="text"
                       className="outline-none w-full text-gray-800 px-2 py-3 rounded-r-md"
                     />
