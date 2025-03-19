@@ -73,8 +73,13 @@ exports.getCompanyDetails = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      company,
-      jobs,
+      company: {
+        companyDetails: company.companyDetails,
+        _id: company._id,
+        name: company.name,
+        email: company.email,
+        jobs,
+      },
     });
   } catch (err) {
     res.status(500).json({
