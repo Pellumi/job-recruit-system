@@ -1,6 +1,6 @@
-import nodemailer from "nodemailer";
+const nodemailer = require("nodemailer");
 
-export const sendEmail = async ({ to, subject, html }) => {
+exports.sendEmail = async ({ to, subject, html }) => {
   try {
     const transporter = nodemailer.createTransport({
       service: "Gmail",
@@ -10,11 +10,10 @@ export const sendEmail = async ({ to, subject, html }) => {
       },
     });
 
-    const mailOptions = { to, subject, html };
+    const mailOptions = { from: process.env.GMAIL_ADDRESS, to, subject, html };
 
     await transporter.sendMail(mailOptions);
 
-    // TODO: remove the console.log before prod
     console.log("Email sent successfully");
   } catch (error) {
     console.error("Error sending email:", error);

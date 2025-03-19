@@ -20,20 +20,17 @@ exports.createJob = async (req, res) => {
       interviewFormDescription, // Extract interview form description
     } = req.body;
 
-    const myCloud = await cloudinary.v2.uploader.upload(logo, {
-      folder: "logo",
-      crop: "scale",
-    });
-
     const company = await User.findById(req.user._id);
     if (!company) {
-      return res.status(404).json({
-        success: false,
-        message: "Company not found.",
+      const myCloud = await cloudinary.v2.uploader.upload(logo, {
+        folder: "logo",
+        crop: "scale",
       });
+
+      return myCloud;
     }
 
-    const companyLogo = company.avatar;
+    const companyLogo = company.companyDetails.logo;
 
     const newJob = await Job.create({
       title,
@@ -64,6 +61,7 @@ exports.createJob = async (req, res) => {
       newJob,
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       success: false,
       message: err.message,
