@@ -88,7 +88,7 @@ export const Navbar = () => {
                       </Link>
                     ))}
                   {me.role === "company" ? (
-                    <Link to="/applied">
+                    <Link to="/admin/allApplications">
                       <Menu.Item icon={<MdDoneAll size={14} />}>
                         My Applications
                       </Menu.Item>
@@ -101,7 +101,7 @@ export const Navbar = () => {
                     </Link>
                   )}
                   {me.role === "company" ? (
-                    <Link to="/saved">
+                    <Link to="/admin/alljobs">
                       <Menu.Item icon={<FaSave size={14} />}>
                         Posted Jobs
                       </Menu.Item>

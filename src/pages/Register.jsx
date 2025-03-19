@@ -101,6 +101,7 @@ export const Register = () => {
     };
 
     dispatch(registerUser(data));
+    // console.log(data)
 
     setName("");
     setEmail("");

@@ -76,7 +76,9 @@ export const MyProfile = () => {
                   {me.role === "company" ? (
                     <div>
                       <p className="md:text-2xl text-xl">Location</p>
-                      <p className="md:text-xl pt-1 text-lg">{me.companyDetails.location}</p>
+                      <p className="md:text-xl pt-1 text-lg">
+                        {me.companyDetails.location}
+                      </p>
                     </div>
                   ) : (
                     <div>
@@ -124,16 +126,27 @@ export const MyProfile = () => {
                           </Link>{" "}
                         </li>
                       )}
-                      <li className=" ">
-                        <Link to="/applied">
-                          <button className="blueCol w-2/3 md:w-full font-medium px-6 py-1">
-                            My Applications
-                          </button>
-                        </Link>
-                      </li>
                       {me.role === "company" ? (
                         <li className=" ">
-                          <Link to="/saved">
+                          <Link to="/admin/allApplications">
+                            <button className="blueCol w-2/3 md:w-full font-medium px-6 py-1">
+                              My Applications
+                            </button>
+                          </Link>
+                        </li>
+                      ) : (
+                        <li className=" ">
+                          <Link to="/applied">
+                            <button className="blueCol w-2/3 md:w-full font-medium px-6 py-1">
+                              My Applications
+                            </button>
+                          </Link>
+                        </li>
+                      )}
+
+                      {me.role === "company" ? (
+                        <li className=" ">
+                          <Link to="/admin/alljobs">
                             <button className="blueCol w-2/3 md:w-full font-medium px-6 py-1">
                               Posted Jobs
                             </button>
