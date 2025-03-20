@@ -14,6 +14,7 @@ const {
   deleteJob,
   getAllCompanyApp,
   getAllCompanies,
+  getCompanyDetails,
 } = require("../controllers/AdminControllers");
 const { isAuthenticated, authorizationRoles } = require("../middlewares/auth");
 const {
@@ -29,6 +30,7 @@ router
   .get(isAuthenticated, authorizationRoles("admin"), getAllJobs);
 router.route("/admin/allUsers").get(getAllUsers);
 router.route("/admin/allCompanies").get(getAllCompanies);
+router.route("/admin/getCompany/:id").get(getCompanyDetails);
 router
   .route("/admin/allApp")
   .get(isAuthenticated, authorizationRoles("admin"), getAllApp);

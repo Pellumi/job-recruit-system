@@ -54,6 +54,40 @@ exports.getAllCompanies = async (req, res) => {
   }
 };
 
+exports.getCompanyDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the user by ID and ensure they have the role of "company"
+    const company = await User.findOne({ _id: id, role: "company" });
+
+    if (!company) {
+      return res.status(404).json({
+        success: false,
+        message: "Company not found or user is not a company.",
+      });
+    }
+
+    // Find all jobs posted by the company
+    const jobs = await Job.find({ postedBy: id });
+
+    res.status(200).json({
+      success: true,
+      company: {
+        companyDetails: company.companyDetails,
+        _id: company._id,
+        name: company.name,
+        email: company.email,
+        jobs,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
 
 // Get all applications
 exports.getAllApp = async (req, res) => {
