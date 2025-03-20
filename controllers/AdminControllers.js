@@ -2,6 +2,8 @@ const Job = require("../models/JobModel");
 const User = require("../models/UserModel");
 const Application = require("../models/AppModel");
 const cloudinary = require("cloudinary");
+const mongoose = require("mongoose");
+
 
 // Get all jobs
 exports.getAllJobs = async (req, res) => {
@@ -142,19 +144,38 @@ exports.getAllCompanyApp = async (req, res) => {
 // Update Application Status
 exports.updateApplication = async (req, res) => {
   try {
+    // Validate ObjectId format for application ID
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid application ID",
+      });
+    }
+
     const application = await Application.findById(req.params.id);
+    if (!application) {
+      return res.status(404).json({
+        success: false,
+        message: "Application not found",
+      });
+    }
 
     const user = await User.findById(application.applicant.id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
 
     application.status = req.body.status;
-
     await application.save();
 
     const emailContent = `
-            <div style="font-family: Arial, sans-serif; text-align: left;">
-            <p style="color: #0073E6; font-size: 24px;">Your application status has been updated to ${application.status}.</p>
-            </div>
-            `;
+      <div style="font-family: Arial, sans-serif; text-align: left;">
+        <p style="color: #0073E6; font-size: 24px;">Your application status has been updated to ${application.status}.</p>
+      </div>
+    `;
 
     await sendEmail({
       to: user.email,
@@ -173,6 +194,7 @@ exports.updateApplication = async (req, res) => {
     });
   }
 };
+
 // Delete Application
 exports.deleteApplication = async (req, res) => {
   try {
