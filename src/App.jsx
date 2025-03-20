@@ -35,6 +35,7 @@ import { Test } from './pages/Test'
 import NotFound from './pages/NotFound'
 import UnAuthorized from './pages/UnAuthorized'
 import ScrollToTopWhenRouteChanges from './components/ScrollToTopOnRouteChange.jsx'
+import Company from './pages/Company.jsx'
 
 
 
@@ -89,6 +90,7 @@ function App() {
           <Route path='/profile' element={<MyProfile />} />
           <Route path='/applied' element={<AppliedJobs />} />
           <Route path='/saved' element={<SavedJobs />} />
+          <Route path='/company/:id' element={<Company />} />
           <Route path='/changePassword' element={<ChangePassword />} />
           <Route path='/editProfile' element={<EditProfile />} />
           <Route path='/deleteAccount' element={<DeleteAccount />} />

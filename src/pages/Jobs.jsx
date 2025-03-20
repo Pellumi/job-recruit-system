@@ -41,8 +41,6 @@ export const Jobs = () => {
     "Oracle"
   ]
 
-  console.log(allJobs.length)
-
   useEffect(() => {
     dispatch(getAllJobs());
   }, [])

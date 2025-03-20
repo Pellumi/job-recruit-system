@@ -35,6 +35,12 @@ import {
   deleteJobRequest,
   deleteJobSuccess,
   deleteJobFail,
+  getAllCompaniesRequest,
+  getAllCompaniesSuccess,
+  getAllCompaniesFail,
+  getCompanyRequest,
+  getCompanySuccess,
+  getCompanyFail,
 } from "../slices/AdminSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -89,6 +95,27 @@ export const getAllUsersAdmin = () => async (dispatch) => {
     dispatch(getAllUsersSuccess(data.users));
   } catch (err) {
     dispatch(getAllUsersFail(err.response.data.message));
+  }
+};
+
+export const getAllCompanies = () => async (dispatch) => {
+  try {
+    dispatch(getAllCompaniesRequest());
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      "https://job-recruit-system.onrender.com/api/v1/admin/allCompanies",
+      config
+    );
+
+    dispatch(getAllCompaniesSuccess(data.companies));
+  } catch (err) {
+    dispatch(getAllCompaniesFail(err.response.data.message));
   }
 };
 
@@ -214,6 +241,27 @@ export const getUserData = (id) => async (dispatch) => {
     dispatch(getUserSuccess(data.user));
   } catch (err) {
     dispatch(getUserFail(err.response.data.message));
+  }
+};
+
+export const getCompanyData = (id) => async (dispatch) => {
+  try {
+    dispatch(getCompanyRequest());
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `https://job-recruit-system.onrender.com/api/v1/admin/getCompany/${id}`,
+      config
+    );
+
+    dispatch(getCompanySuccess(data.company));
+  } catch (err) {
+    dispatch(getCompanyFail(err.response.data.message));
   }
 };
 
