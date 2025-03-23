@@ -37,6 +37,23 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
+// Get all users with the role of "applicant"
+exports.getAllApplicants = async (req, res) => {
+  try {
+    const applicants = await User.find({ role: "applicant" });
+
+    res.status(200).json({
+      success: true,
+      applicants,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
 exports.getAllCompanies = async (req, res) => {
   try {
     // Find only users with the role of 'company'
