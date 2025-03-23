@@ -2,6 +2,7 @@ const User = require("../models/UserModel");
 const bcrypt = require("bcrypt");
 const { createToken } = require("../middlewares/auth");
 const cloudinary = require("cloudinary");
+const { sendEmail } = require("../utils/EmailUtilities");
 
 exports.register = async (req, res) => {
   try {
@@ -18,6 +19,26 @@ exports.register = async (req, res) => {
     });
 
     const hashPass = await bcrypt.hash(password, 10);
+
+    const emailContent = `
+    <div style="font-family: Arial, sans-serif; text-align: left;">
+    <p style="color: #0073E6; font-size: 24px;">Welcome to JobLane ${name}.</p>
+    </div>
+    `;
+
+    try {
+      await sendEmail({
+        to: email,
+        subject: `JobLane Application`,
+        html: emailContent,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Email",
+      });
+    }
+
     const user = await User.create({
       name,
       email,
@@ -93,6 +114,25 @@ exports.registerCompany = async (req, res) => {
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    const emailContent = `
+    <div style="font-family: Arial, sans-serif; text-align: left;">
+    <p style="color: #0073E6; font-size: 24px;">Welcome to JobLane ${companyName}.</p>
+    </div>
+    `;
+
+    try {
+      await sendEmail({
+        to: email,
+        subject: `JobLane Application`,
+        html: emailContent,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Email",
+      });
+    }
 
     // Create new company user
     const company = await User.create({
@@ -303,8 +343,14 @@ exports.updateProfile = async (req, res) => {
 
 exports.updateCompanyProfile = async (req, res) => {
   try {
-    const { newCompanyName, newEmail, newLocation, newLogo, newDescription, newWebsite } =
-      req.body;
+    const {
+      newCompanyName,
+      newEmail,
+      newLocation,
+      newLogo,
+      newDescription,
+      newWebsite,
+    } = req.body;
 
     const company = await User.findById(req.user._id);
 
