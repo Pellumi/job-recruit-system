@@ -112,7 +112,6 @@ export const logOrNot = () => async (dispatch) => {
 };
 
 export const me = () => async (dispatch) => {
-  console.log("i ran me: ");
   try {
     dispatch(getMeRequest());
     const config = {

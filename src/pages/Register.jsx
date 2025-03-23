@@ -158,7 +158,7 @@ export const Register = () => {
                 activeTab === "user" ? "bg-blue-600" : "bg-gray-700"
               }`}
             >
-              User
+              Applicant
             </button>
             <button
               type="button"
@@ -180,7 +180,7 @@ export const Register = () => {
               >
                 <div className="md:px-10 px-2 pt-4 pb-20 w-full flex flex-col gap-4">
                   <div className="text-center">
-                    <p className="text-4xl  font-medium">Register as a user</p>
+                    <p className="text-4xl  font-medium">Register as an Applicant</p>
                   </div>
 
                   {/* Name */}
