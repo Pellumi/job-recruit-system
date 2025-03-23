@@ -79,14 +79,13 @@ export const Navbar = () => {
                       My Profile
                     </Menu.Item>
                   </Link>
-                  {me.role === "admin" ||
-                    (me.role === "company" && (
-                      <Link to="/admin/dashboard">
-                        <Menu.Item icon={<MdOutlineDashboard size={14} />}>
-                          Dashboard
-                        </Menu.Item>
-                      </Link>
-                    ))}
+                  {me.role != "applicant" && (
+                    <Link to="/admin/dashboard">
+                      <Menu.Item icon={<MdOutlineDashboard size={14} />}>
+                        Dashboard
+                      </Menu.Item>
+                    </Link>
+                  )}
                   {me.role === "company" ? (
                     <Link to="/admin/allApplications">
                       <Menu.Item icon={<MdDoneAll size={14} />}>

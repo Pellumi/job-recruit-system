@@ -78,7 +78,17 @@ export const Sidebar = ({ sideTog }) => {
               View All Applications{" "}
             </Link>
           </div>
-
+          {me.role == "company" && (
+            <div className="flex justify-center gap-2 items-center">
+              <Link
+                to="/admin/allUsers"
+                className="flex blueCol px-4 py-1 justify-center gap-2 items-center"
+              >
+                <AiOutlineUser size={20} />
+                Search for Users
+              </Link>
+            </div>
+          )}
           {me.role != "company" && (
             <div className="flex justify-center gap-2 items-center">
               <Link

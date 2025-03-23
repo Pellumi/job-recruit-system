@@ -78,6 +78,8 @@ export const getAllJobsAdmin = () => async (dispatch) => {
 };
 
 export const getAllUsersAdmin = () => async (dispatch) => {
+  const role = localStorage.getItem("role");
+
   try {
     dispatch(getAllUsersRequest());
 
@@ -87,12 +89,23 @@ export const getAllUsersAdmin = () => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.get(
-      "https://job-recruit-system.onrender.com/api/v1/admin/allUsers",
-      config
-    );
+    if (role === "admin") {
+      const { data } = await axios.get(
+        "https://job-recruit-system.onrender.com/api/v1/admin/allUsers",
+        config
+      );
 
-    dispatch(getAllUsersSuccess(data.users));
+      dispatch(getAllUsersSuccess(data.users));
+    } else if (role === "company") {
+      const { data } = await axios.get(
+        "https://job-recruit-system.onrender.com/api/v1/admin/allApplicants",
+        config
+      );
+
+      console.log(data.applicants);
+
+      dispatch(getAllUsersSuccess(data.applicants));
+    }
   } catch (err) {
     dispatch(getAllUsersFail(err.response.data.message));
   }
