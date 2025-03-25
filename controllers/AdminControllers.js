@@ -3,7 +3,7 @@ const User = require("../models/UserModel");
 const Application = require("../models/AppModel");
 const cloudinary = require("cloudinary");
 const mongoose = require("mongoose");
-
+const { sendEmail } = require("../utils/EmailUtilities");
 
 // Get all jobs
 exports.getAllJobs = async (req, res) => {
@@ -158,10 +158,9 @@ exports.getAllCompanyApp = async (req, res) => {
   }
 };
 
-// Update Application Status
 exports.updateApplication = async (req, res) => {
   try {
-    // Validate ObjectId format for application ID
+    // Validate application ID
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).json({
         success: false,
@@ -169,7 +168,11 @@ exports.updateApplication = async (req, res) => {
       });
     }
 
-    const application = await Application.findById(req.params.id);
+    // Find the application by ID
+    const application = await Application.findById(req.params.id)
+      .populate("applicant")
+      .populate("job");
+
     if (!application) {
       return res.status(404).json({
         success: false,
@@ -177,7 +180,19 @@ exports.updateApplication = async (req, res) => {
       });
     }
 
-    const user = await User.findById(application.applicant.id);
+    // Debugging: Log the application object
+
+    // Extract applicant ID directly (since it's already an ObjectId)
+    const applicantId = application.applicant._id;
+    if (!applicantId) {
+      return res.status(400).json({
+        success: false,
+        message: "Applicant ID is missing",
+      });
+    }
+
+    // Ensure the applicant exists
+    const user = await User.findById(applicantId);
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -185,12 +200,43 @@ exports.updateApplication = async (req, res) => {
       });
     }
 
+    const interviewFormUrl = application.job?.interviewForm?.url || null;
+    const interviewFormDescription =
+      application.job?.interviewForm?.description || null;
+
+    // Update application status
     application.status = req.body.status;
     await application.save();
 
+    if ((req.body.status = "interview")) {
+      const emailContent = `
+      <div style="font-family: Arial, sans-serif; text-align: left;">
+        <p style="color: #0073E6; font-size: 24px;">Your application status for ${application.job.title} at ${application.job.companyName} has been updated to ${
+          application.status
+        }.</p>
+        ${
+          interviewFormUrl
+            ? `<p><strong>Interview Form Link:</strong> <a href="${interviewFormUrl}">${interviewFormUrl}</a></p>`
+            : ""
+        }
+        ${
+          interviewFormDescription
+            ? `<p><strong>Interview Meet Link:</strong> <a href="${interviewFormDescription}">${interviewFormDescription}</a></p>`
+            : ""
+        }
+      </div>
+    `;
+
+      await sendEmail({
+        to: user.email,
+        subject: `JobLane Application Update`,
+        html: emailContent,
+      });
+    }
+
     const emailContent = `
       <div style="font-family: Arial, sans-serif; text-align: left;">
-        <p style="color: #0073E6; font-size: 24px;">Your application status has been updated to ${application.status}.</p>
+        <p style="color: #0073E6; font-size: 24px;">Your application status  for ${application.job.title} at ${application.job.companyName}  has been updated to ${application.status}.</p>
       </div>
     `;
 
