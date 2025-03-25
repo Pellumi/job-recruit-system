@@ -5,7 +5,7 @@ const AdminSlice = createSlice({
   initialState: {
     loading: false,
     allJobs: null,
-    allApplications: null,
+    allApplications: [],
     allUsers: null,
     allCompanies: null,
     error: null,
@@ -111,6 +111,7 @@ const AdminSlice = createSlice({
     getAllAppSuccess: (state, action) => {
       state.loading = false;
       state.allApplications = action.payload;
+      console.log(state.allApplications)
     },
     getAllAppFail: (state, action) => {
       state.loading = false;

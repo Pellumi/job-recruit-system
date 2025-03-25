@@ -112,7 +112,7 @@ export const ViewAllUsersAdmin = () => {
                     </div>
                     <input
                       value={search}
-                      placeholder="Search Jobs "
+                      placeholder="Enter a skill "
                       onChange={(e) => {
                         setSearch(e.target.value);
                       }}

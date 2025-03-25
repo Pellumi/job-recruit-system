@@ -28,9 +28,7 @@ export const EditAppAdmin = () => {
       status,
     };
 
-    console.log(id, data)
-
-    // dispatch(updateApplication(id, data));
+    dispatch(updateApplication(id, data));
   };
 
   const toUpperFirst = (str = "") => {

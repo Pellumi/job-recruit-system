@@ -88,12 +88,10 @@ export const ViewAllAppli = () => {
                 <tbody>
                   {allApplications &&
                     allApplications
-                      .filter((user) => user._id)
-                      .sort((a, b) => {
-                        const dateA = new Date(a.createdAt);
-                        const dateB = new Date(b.createdAt);
-                        return dateB - dateA;
-                      })
+                      .filter((app) => app._id && app.job) // Ensure _id exists and job is not null/undefined
+                      .sort(
+                        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                      )
                       .map((app, i) => (
                         <tr
                           key={i}
